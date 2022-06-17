@@ -35,7 +35,6 @@ export default function CasualGame() {
   const [fourRow, setFourRow] = useState(DEFAULT_ROW);
   const [fiveRow, setFiveRow] = useState(DEFAULT_ROW);
   const [sixRow, setSixRow] = useState(DEFAULT_ROW);
-  
   async function statisticsInitialSet(){
     var response = await AsyncStorage.getItem("@statistics:matchs");
     var json_response = JSON.parse(response);
@@ -88,6 +87,27 @@ export default function CasualGame() {
   };
   const defineWord = () => {
     word == null && setWord(randomWord().toUpperCase());
+  };
+  const firstLineStringfy = () => {
+    return `${firstRow.letters[0]}${firstRow.letters[1]}${firstRow.letters[2]}${firstRow.letters[3]}${firstRow.letters[4]}`;
+  };
+  const secondLineStringfy = () => {
+    return `${secondRow.letters[0]}${secondRow.letters[1]}${secondRow.letters[2]}${secondRow.letters[3]}${secondRow.letters[4]}`;
+  };
+  const threeLineStringfy = () => {
+    return `${threeRow.letters[0]}${threeRow.letters[1]}${threeRow.letters[2]}${threeRow.letters[3]}${threeRow.letters[4]}`;
+  };
+  const fourLineStringfy = () => {
+    return `${fourRow.letters[0]}${fourRow.letters[1]}${fourRow.letters[2]}${fourRow.letters[3]}${fourRow.letters[4]}`;
+  };
+  const fiveLineStringfy = () => {
+    return `${fiveRow.letters[0]}${fiveRow.letters[1]}${fiveRow.letters[2]}${fiveRow.letters[3]}${fiveRow.letters[4]}`;
+  };
+  const sixLineStringfy = () => {
+    return `${sixRow.letters[0]}${sixRow.letters[1]}${sixRow.letters[2]}${sixRow.letters[3]}${sixRow.letters[4]}`;
+  };
+  const allLinesStringfy = () => {
+    return [firstLineStringfy(),secondLineStringfy(),threeLineStringfy(),fourLineStringfy(),fiveLineStringfy(),sixLineStringfy()]
   };
   const statusFirstLineWordIncomplete = () => {
     var statusFirstRow = [];
@@ -367,6 +387,9 @@ export default function CasualGame() {
     }
     return statusSixRow;
   };
+  const returnStatusSquare = () =>{
+    return [statusFirstLine(),statusSecondLine(),statusThreeLine(),statusFourLine(),statusFiveLine(),statusSixLine()]
+  };
   const firstLineLenghtMax = () => {
     return firstRow.letters.length == 5;
   };
@@ -384,27 +407,6 @@ export default function CasualGame() {
   };
   const sixLineLenghtMax = () => {
     return sixRow.letters.length == 5;
-  };
-  const firstLineStringfy = () => {
-    return `${firstRow.letters[0]}${firstRow.letters[1]}${firstRow.letters[2]}${firstRow.letters[3]}${firstRow.letters[4]}`;
-  };
-  const secondLineStringfy = () => {
-    return `${secondRow.letters[0]}${secondRow.letters[1]}${secondRow.letters[2]}${secondRow.letters[3]}${secondRow.letters[4]}`;
-  };
-  const threeLineStringfy = () => {
-    return `${threeRow.letters[0]}${threeRow.letters[1]}${threeRow.letters[2]}${threeRow.letters[3]}${threeRow.letters[4]}`;
-  };
-  const fourLineStringfy = () => {
-    return `${fourRow.letters[0]}${fourRow.letters[1]}${fourRow.letters[2]}${fourRow.letters[3]}${fourRow.letters[4]}`;
-  };
-  const fiveLineStringfy = () => {
-    return `${fiveRow.letters[0]}${fiveRow.letters[1]}${fiveRow.letters[2]}${fiveRow.letters[3]}${fiveRow.letters[4]}`;
-  };
-  const sixLineStringfy = () => {
-    return `${sixRow.letters[0]}${sixRow.letters[1]}${sixRow.letters[2]}${sixRow.letters[3]}${sixRow.letters[4]}`;
-  };
-  const allLinesStringfy = () => {
-    return [firstLineStringfy(),secondLineStringfy(),threeLineStringfy(),fourLineStringfy(),fiveLineStringfy(),sixLineStringfy()]
   };
   const verifyFirstLineWord = () =>{
     if (listWords.includes(firstLineStringfy())) {
@@ -519,24 +521,25 @@ export default function CasualGame() {
       }
     }
   };
+  const status = {
+    firstLine: returnStatusSquare()[0],
+    secondLine:returnStatusSquare()[1],
+    threeLine:returnStatusSquare()[2],
+    fourLine:returnStatusSquare()[3],
+    fiveLine:returnStatusSquare()[4],
+    sixLine:returnStatusSquare()[5],
+  };
   useEffect(() => {
     gameStatus();
-  }, [
-    firstRow.word_complete,
-    secondRow.word_complete,
-    threeRow.word_complete,
-    fourRow.word_complete,
-    fiveRow.word_complete,
-    sixRow.word_complete,
-  ]);
+  },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
   useEffect(() => {
     addToList();
   }, [letter]);
-
   useEffect(() => {
-    defineWord(), statisticsInitialSet();
+    defineWord();
+    statisticsInitialSet();
   }, [word]);
-  console.log(word);
+  console.log(word);  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
@@ -548,33 +551,33 @@ export default function CasualGame() {
           ActionPress={resetGame}
         />
         <RowSquare
-          status={statusFirstLine()}
+          status={status.firstLine}
           letters={firstRow.letters}
           wordcomplete={firstRow.word_complete}
         />
         <RowSquare
           wordcomplete={secondRow.word_complete}
-          status={statusSecondLine()}
+          status={status.secondLine}
           letters={secondRow.letters}
         />
         <RowSquare
           wordcomplete={threeRow.word_complete}
-          status={statusThreeLine()}
+          status={status.threeLine}
           letters={threeRow.letters}
         />
         <RowSquare
           wordcomplete={fourRow.word_complete}
-          status={statusFourLine()}
+          status={status.fourLine}
           letters={fourRow.letters}
         />
         <RowSquare
           wordcomplete={fiveRow.word_complete}
-          status={statusFiveLine()}
+          status={status.fiveLine}
           letters={fiveRow.letters}
         />
         <RowSquare
           wordcomplete={sixRow.word_complete}
-          status={statusSixLine()}
+          status={status.sixLine}
           letters={sixRow.letters}
         />
         <ToastWarning Toast={Toast} set_Toast={setToast} />

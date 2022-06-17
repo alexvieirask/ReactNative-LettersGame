@@ -387,9 +387,6 @@ export default function CasualGame() {
     }
     return statusSixRow;
   };
-  const returnStatusSquare = () =>{
-    return [statusFirstLine(),statusSecondLine(),statusThreeLine(),statusFourLine(),statusFiveLine(),statusSixLine()]
-  };
   const firstLineLenghtMax = () => {
     return firstRow.letters.length == 5;
   };
@@ -522,12 +519,12 @@ export default function CasualGame() {
     }
   };
   const status = {
-    firstLine: returnStatusSquare()[0],
-    secondLine:returnStatusSquare()[1],
-    threeLine:returnStatusSquare()[2],
-    fourLine:returnStatusSquare()[3],
-    fiveLine:returnStatusSquare()[4],
-    sixLine:returnStatusSquare()[5],
+    firstLine: statusFirstLine(),
+    secondLine:statusSecondLine(),
+    threeLine:statusThreeLine(),
+    fourLine:statusFourLine(),
+    fiveLine:statusFiveLine(),
+    sixLine:statusSixLine(),
   };
   useEffect(() => {
     gameStatus();

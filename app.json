@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "LettersGame",
+    "slug": "LettersGame",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./config/app/icon.png",
+    "splash": {
+      "image": "./config/app/splash.png",
+      "backgroundColor": "#1a1a1a",
+      "resizeMode": "cover"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.alexvieirask.lettersGame",
+      "adaptiveIcon": {
+        "foregroundImage": "./config/app/adaptiveicon.png",
+        "backgroundColor": "#1a1a1a"
+      }
+    }
+  }
+}

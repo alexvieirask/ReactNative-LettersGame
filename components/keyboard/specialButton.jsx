@@ -1,41 +1,24 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableHighlight } from "react-native";
 import { FontAwesome } from "react-native-vector-icons";
-import Colors from "../../config/General/Colors";
-import Fonts from "../../config/General/Fonts";
+import { styles } from "../../assets/styles/Keyboard";
 const SpecialButton = ({label,setletter,letter}) => {
-  const styles = StyleSheet.create({
-    container: {
-      height: 55,
-      width: 55,
-      borderRadius: 3,
-      backgroundColor: Colors.SQUARE_KEYBOARD_BACKGROUND,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    label: {
-      color: Colors.SQUARE_KEYBOARD,
-      fontWeight: "bold",
-      fontSize: Fonts.LABEL_SQUARE_KEYBOARD,
-    },
-  });
-  return label == "Enter" ? (
-    <TouchableHighlight
-      onPress={() => {
-        letter == label ? setletter(label + " ") : setletter(label)
-      }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.label}>Enter</Text>
+  const lettersRepeatPossible = () =>{
+    if( letter == label){
+      setletter(label + " ")
+    }else{
+      setletter(label)
+    }
+  }
+  return label === "Enter" ? (
+    <TouchableHighlight onPress={() => lettersRepeatPossible()}>
+      <View style={styles.keyboardLetterSpecialContainer}>
+        <Text style={styles.keyboardLetterSpecialLabel}>Enter</Text>
       </View>
     </TouchableHighlight>
   ) : (
-    <TouchableHighlight
-      onPress={() => {
-        letter == label ? setletter(label + " ") : setletter(label)
-      }}
-    >
-      <View style={styles.container}>
+  <TouchableHighlight onPress={() => lettersRepeatPossible()}>
+      <View style={styles.keyboardLetterSpecialContainer}>
         <FontAwesome name="remove" size={20} color="#fff" />
       </View>
     </TouchableHighlight>

@@ -8,6 +8,7 @@ import ToastWarning from "../../components/modals/ToastWarning";
 import words from "../../services/words";
 import Keyboard from "../../components/keyboard/keyboard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function CasualGame() {
   const listWords = words
   const DEFAULT_ROW = {
@@ -19,7 +20,7 @@ export default function CasualGame() {
     DEFAULT: "DEFAULT",
     GREEN: "GREEN",
     YELLOW: "YELLOW",
-    RED: "RED",
+    RED: "RED"
   };
   const [Toast, setToast] = useState({
     visible: false,
@@ -27,7 +28,7 @@ export default function CasualGame() {
   });
   const [showAlert, setShowAlert] = useState(false);
   const [word, setWord] = useState(null);
-  const [letter, setLetter] = useState();
+  const [letter, setLetter] = useState(null);
   const [wordStatus, setWordStatus] = useState(null);
   const [firstRow, setFirstRow] = useState(DEFAULT_ROW);
   const [secondRow, setSecondRow] = useState(DEFAULT_ROW);
@@ -536,7 +537,7 @@ export default function CasualGame() {
     defineWord();
     statisticsInitialSet();
   }, [word]);
-  console.log(word);  
+  console.log(fiveRow.letters[0])
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
@@ -552,7 +553,7 @@ export default function CasualGame() {
           letters={firstRow.letters}
           wordcomplete={firstRow.word_complete}
         />
-        <RowSquare
+         <RowSquare
           wordcomplete={secondRow.word_complete}
           status={status.secondLine}
           letters={secondRow.letters}
@@ -576,10 +577,10 @@ export default function CasualGame() {
           wordcomplete={sixRow.word_complete}
           status={status.sixLine}
           letters={sixRow.letters}
-        />
+        /> 
         <ToastWarning Toast={Toast} set_Toast={setToast} />
       </View>
-      <Keyboard setLetter={setLetter} letter={letter} />
+      <Keyboard letter={letter} setLetter={setLetter} />
     </SafeAreaView>
   );
 }

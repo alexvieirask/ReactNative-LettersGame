@@ -28,8 +28,6 @@ export default function Routes() {
           title: null,
         }}
       />
-      
-      
       <Stack.Screen
         name="CasualGame"
         component={CasualGame}
@@ -37,7 +35,6 @@ export default function Routes() {
           headerShown: false,
         }}
       />
-      
     </Stack.Navigator>
   );
 }

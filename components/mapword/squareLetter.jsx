@@ -1,82 +1,55 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Colors from "../../config/General/Colors";
-import Fonts from "../../config/General/Fonts";
+import styleStructureSquare from "../../services/styleStructureSquare";
+import { styles } from "../../assets/styles/SquareLetter";
 const SquareLetter = ({ letter, status, wordcomplete }) => {
-  const STRUCTURE = {
-    ONFOCUS: {
-      background: Colors.ONFOCUS_STATUS_BACKGROUND,
-      border: Colors.ONFOCUS_STATUS_BORDER,
-    },
-    DEFAULT: {
-      background: Colors.DEFAULT_STATUS_BACKGROUND,
-      border: Colors.DEFAULT_STATUS_BORDER,
-    },
-    YELLOW: {
-      background: Colors.YELLOW_STATUS_BACKGROUND,
-      border: Colors.YELLOW_STATUS_BORDER,
-    },
-    GREEN: {
-      background: Colors.GREEN_STATUS_BACKGROUND,
-      border: Colors.GREEN_STATUS_BORDER,
-    },
-    RED: {
-      background: Colors.RED_STATUS_BACKGROUND,
-      border: Colors.RED_STATUS_BORDER,
-    },
-  };
 
-  var background = null;
-  var border = null;
-
-
-
-  if (wordcomplete == false) {
-    if (status == "ONFOCUS") {
-      background = STRUCTURE.ONFOCUS.background;
-      border = STRUCTURE.ONFOCUS.border;
-    } else {
-      background = STRUCTURE.DEFAULT.background;
-      border = STRUCTURE.DEFAULT.border;
+  const structure = styleStructureSquare;
+  const styleSquare = () =>{
+    var style = {
+      background: null,
+      border: null,
+    };
+  
+    if (wordcomplete == false) {
+      if (status == "ONFOCUS") {
+        style = structure.ONFOCUS;
+      } else {
+        style = structure.DEFAULT;
+      }
     }
-  } else {
-    if (status == "GREEN") {
-      background = STRUCTURE.GREEN.background;
-      border = STRUCTURE.GREEN.border;
+   
+    if (wordcomplete == true) {
+      if (status == "GREEN") {
+        style = structure.GREEN;
+      }
+  
+      if (status == "YELLOW") {
+        style = structure.YELLOW;
+      }
+  
+      if (status == "RED") {
+        style = structure.RED;
+      }
     }
-
-    if (status == "YELLOW") {
-      background = STRUCTURE.YELLOW.background;
-      border = STRUCTURE.YELLOW.background;
-    }
-
-    if (status == "RED") {
-      background = STRUCTURE.RED.background;
-      border = STRUCTURE.RED.background;
-    }
+    return style
   }
-
-  const styles = StyleSheet.create({
+  const style = styleSquare()
+  const stylesSquare = StyleSheet.create({
     container: {
       height: 70,
       width: "19.5%",
       borderWidth: 1,
-      borderColor: border,
+      borderColor: style.border,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: background,
-    },
-    label: {
-      fontSize: 30,
-      color: "#fff",
-      fontWeight: Fonts.EXTRABOLD,
+      backgroundColor: style.background,
     },
   });
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{letter}</Text>
+    <View style={stylesSquare.container}>
+      <Text style={styles.squareLabel}>{letter}</Text>
     </View>
   );
 };
-
 export default SquareLetter;

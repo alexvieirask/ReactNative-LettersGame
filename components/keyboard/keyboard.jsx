@@ -30,7 +30,7 @@ const Keyboard = ({ letter, setLetter }) => {
         <LetterInput label="L" letter={letter} setletter={setLetter} />
       </View>
       <View style={styles.keyboardThreeRow}>
-        <SpecialButton letter={letter} label="Delete"  setletter={setLetter} />
+        <SpecialButton letter={letter} label="Delete" setletter={setLetter} />
         <LetterInput label="Z" letter={letter} setletter={setLetter} />
         <LetterInput label="X" letter={letter} setletter={setLetter} />
         <LetterInput label="C" letter={letter} setletter={setLetter} />
@@ -38,7 +38,7 @@ const Keyboard = ({ letter, setLetter }) => {
         <LetterInput label="B" letter={letter} setletter={setLetter} />
         <LetterInput label="N" letter={letter} setletter={setLetter} />
         <LetterInput label="M" letter={letter} setletter={setLetter} />
-        <SpecialButton label="Enter" letter={letter}  setletter={setLetter} />
+        <SpecialButton label="Enter" letter={letter} setletter={setLetter} />
       </View>
     </View>
   );

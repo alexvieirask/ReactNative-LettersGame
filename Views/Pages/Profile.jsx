@@ -19,27 +19,26 @@ export default function Profile() {
       color: "#f54257",
     },
   ];
-
   const percentWonGames = () => {
     return `${((data.wonGames / (data.wonGames + data.lostGames)) * 100).toFixed(2)} %`
   };
-
   const percentLostGames = () => {
     return `${((data.lostGames / (data.wonGames + data.lostGames)) * 100).toFixed(2)} %`
   };
-
   async function statisticsGet() {
     var response = await AsyncStorage.getItem("@statistics:matchs");
     var json_response = JSON.parse(response);
     setData(json_response);
   }
-  // Testes
+
   async function deletetudo() {
     await AsyncStorage.removeItem("@statistics:matchs");
   }
   useEffect(() => {
     statisticsGet();
   }, []);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>

@@ -3,7 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import styleStructureSquare from "../../services/styleStructureSquare";
 import { styles } from "../../assets/styles/SquareLetter";
 const SquareLetter = ({ letter, status, wordcomplete }) => {
-
   const structure = styleStructureSquare;
   const styleSquare = () =>{
     var style = {

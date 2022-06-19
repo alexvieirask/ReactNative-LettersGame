@@ -2,25 +2,38 @@ import { View, Text, SafeAreaView, StatusBar } from "react-native";
 import ButtonSimple from "../../components/buttons/ButtonSimple";
 import { useEffect } from "react";
 import { styles } from "../../assets/styles/Home";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import  AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import SeparatorLine from "../../components/SeparatorLine";
 export default function Home() {
+  const {setItem} = useAsyncStorage("@statistics:matches")
+  
   async function statisticsInitial() {
-    var response = await AsyncStorage.getAllKeys();
-    if (response.length == 0) {
-      const statistics = {
-        wonGames: 0,
-        lostGames: 0,
-      };
-      await AsyncStorage.setItem(
-        "@statistics:matchs",
-        JSON.stringify(statistics)
-      );
+    try{
+      var results = await AsyncStorage.getAllKeys();
+      if (results.length == 0) {
+        const statistics = {
+          wonGames:0,
+          lostGames:0,
+          percentWon:'0%',
+          percentLost:'0%',
+        };
+        await setItem(JSON.stringify(statistics))
+      }
+    }
+    catch(error){
+      console.log(error)
     }
   }
+
+  async function deletetudo() {
+    await AsyncStorage.clear()
+  }
+  //deletetudo()
+
   useEffect(() => {
     statisticsInitial();
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="default" />

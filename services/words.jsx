@@ -459,7 +459,6 @@ export default [
   "GRAUS",
   "GANHA",
   "GOLFE",
-  "GREGA",
   "GURIS",
   "GINGA",
   "GALOS",

@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.GAME_BACKGROUND,
-    paddingHorizontal: "4%",
+    paddingHorizontal: "5%",
   },
   body: {
     paddingTop: "10%",
@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: "2%",
     textAlign: "center",
-    fontWeight: "200",
+    fontWeight: "400",
   },
   numberSubtittle: {
     color: "#fff",
     fontSize: 24,
     textAlign: "center",
-    fontWeight: "200",
+    fontWeight: "400",
   },
 });
 export { styles };

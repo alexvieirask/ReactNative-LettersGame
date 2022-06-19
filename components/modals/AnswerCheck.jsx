@@ -69,7 +69,7 @@ export default function AnswerCheck({
       paddingHorizontal: 10,
       borderRadius: 5,
       alignItems: "center",
-      width: 80,
+      width: 120,
     },
 
     buttonMenu: {
@@ -78,7 +78,7 @@ export default function AnswerCheck({
       paddingHorizontal: 10,
       borderRadius: 5,
       alignItems: "center",
-      width: 100,
+      width: 120,
       borderWidth: 1,
       borderRadius: 10,
       borderColor: colorStatus,
@@ -131,7 +131,7 @@ export default function AnswerCheck({
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={() => onClose()}>
               <View style={styles.button}>
-                <Text style={{ color: "#fff" }}>OK</Text>
+                <Text style={{ color: "#fff",textAlign:'center'}}>Jogar Novamente</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => OnMenu()}>

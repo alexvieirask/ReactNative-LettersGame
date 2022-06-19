@@ -7,9 +7,10 @@ import AnswerCheck from "../../components/modals/AnswerCheck";
 import ToastWarning from "../../components/modals/ToastWarning";
 import words from "../../services/words";
 import Keyboard from "../../components/keyboard/keyboard";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import  { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function CasualGame() {
+  const {getItem,setItem,removeItem} = useAsyncStorage("@statistics:matches")
   const listWords = words
   const DEFAULT_ROW = {
     letters: [],
@@ -36,31 +37,38 @@ export default function CasualGame() {
   const [fourRow, setFourRow] = useState(DEFAULT_ROW);
   const [fiveRow, setFiveRow] = useState(DEFAULT_ROW);
   const [sixRow, setSixRow] = useState(DEFAULT_ROW);
-  async function statisticsInitialSet(){
-    var response = await AsyncStorage.getItem("@statistics:matchs");
-    var json_response = JSON.parse(response);
-    const statistics = {
-      wonGames: json_response.wonGames,
-      lostGames: json_response.lostGames + 1,
-    };
-    await AsyncStorage.removeItem("@statistics:matchs");
-    await AsyncStorage.setItem(
-      "@statistics:matchs",
-      JSON.stringify(statistics)
-    );
+  
+  const countMatchesPlayed = async () =>{
+    try{
+      var results = await getItem();
+      var JSONitem = JSON.parse(results);
+      const statistics = {
+        wonGames: JSONitem.wonGames,
+        lostGames: JSONitem.lostGames + 1,
+      }
+      await removeItem()
+      await setItem(JSON.stringify(statistics)
+      )
+    }
+    catch(error){
+      console.log(error) 
+    }
+    
   };
-  async function statisticsWinner(){
-    var response = await AsyncStorage.getItem("@statistics:matchs");
-    var json_response = JSON.parse(response);
-    const statistics = {
-      wonGames: json_response.wonGames + 1,
-      lostGames: json_response.lostGames - 1,
-    };
-    await AsyncStorage.removeItem("@statistics:matchs");
-    await AsyncStorage.setItem(
-      "@statistics:matchs",
-      JSON.stringify(statistics)
-    );
+  const setMatchWinner = async () =>{
+    try{
+      var results = await getItem();
+      var JSONitem = JSON.parse(results);
+      const statistics = {
+        wonGames: JSONitem.wonGames + 1,
+        lostGames: JSONitem.lostGames - 1}
+      await removeItem()
+      await setItem(JSON.stringify(statistics));
+    }
+    catch(error){
+      console.log(error)
+    }
+    
   };
   const resetGame = () => {
     setFirstRow(DEFAULT_ROW);
@@ -75,7 +83,7 @@ export default function CasualGame() {
     if (allLinesStringfy().includes(word)) {
       setWordStatus("Winner");
       setShowAlert(true);
-      statisticsWinner();
+      setMatchWinner();
     } else {
       if (sixRow.word_complete == true) {
         setWordStatus("Loser");
@@ -488,7 +496,7 @@ export default function CasualGame() {
       setSixRow({ ...sixRow, letters: [...sixRow.letters.slice(0, -1)] });
     }
   }
-  const addToList = () => {
+  const addLetter = () => {
     if (letter != undefined) {
       const Letter = letter.trim();
       if (Letter != "Delete" & Letter != "Enter") {
@@ -519,6 +527,8 @@ export default function CasualGame() {
       }
     }
   };
+ 
+
   const status = {
     firstLine: statusFirstLine(),
     secondLine:statusSecondLine(),
@@ -527,17 +537,22 @@ export default function CasualGame() {
     fiveLine:statusFiveLine(),
     sixLine:statusSixLine(),
   };
+
+  useEffect(() => {
+    defineWord();
+    countMatchesPlayed();
+  }, [word]);
+  
+  useEffect(() => {
+    addLetter();
+  }, [letter]);
+
   useEffect(() => {
     gameStatus();
   },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
-  useEffect(() => {
-    addToList();
-  }, [letter]);
-  useEffect(() => {
-    defineWord();
-    statisticsInitialSet();
-  }, [word]);
-  console.log(fiveRow.letters[0])
+
+
+  console.log(word)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>

@@ -28,7 +28,7 @@ export default function Home() {
   async function deletetudo() {
     await AsyncStorage.clear()
   }
-  //deletetudo()
+  deletetudo()
 
   useEffect(() => {
     statisticsInitial();

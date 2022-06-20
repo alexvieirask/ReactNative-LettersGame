@@ -25,15 +25,9 @@ export default function Home() {
     }
   }
 
-  async function deletetudo() {
-    await AsyncStorage.clear()
-  }
-  deletetudo()
-
   useEffect(() => {
     statisticsInitial();
   }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="default" />

@@ -24,12 +24,11 @@ export default function Home() {
       console.log(error)
     }
   }
-
-
-
   useEffect(() => {
     statisticsInitial();
   }, []);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="default" />

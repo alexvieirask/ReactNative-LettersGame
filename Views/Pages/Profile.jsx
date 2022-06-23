@@ -54,25 +54,26 @@ export default function Profile() {
           <View style={{ alignItems: "center" }}>
             <Text style={styles.subtittle}>Suas Partidas</Text>
             <View style={styles.graphicContainer}>
-              <VictoryPie
+              {data.allMatches>0 ?  <VictoryPie
                 data={datasGraphic()}
                 x={(element) => element.label}
                 y={(element) => element.value}
                 colorScale={datasGraphic().map((element) => element.color)}
                 padAngle={({ datum }) => datum.value}
-                innerRadius={70}
+                innerRadius={60}
                 style={{
                   labels: {
                     fill: "#000",
                     fontSize: 14,
                   },
                 }}
-                padding={30}
-                height={250}
-              />
+                padding={50}
+                height={260}
+              />: <Text style={styles.informationLabelType3}>Não há nada para ser mostrado</Text>}
+             
             </View>
           </View>
-          <Text style={styles.tittle}>Informações</Text>
+         
           <SeparatorLine height={1} color={"#fff"} />
           <View style={styles.allMatchesContainer}>
             <Text style={styles.informationLabelType1}>PARTIDAS JOGADAS</Text>

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     color: "#FFF",
-    marginTop: "10%",
+    marginTop: "5%",
     marginLeft: "6%",
   },
   subtittle: {
@@ -25,12 +25,13 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   graphicContainer: {
-    padding: "5%",
+    marginTop: "2%",
+    justifyContent: "center",
     backgroundColor: "#ededed",
     width: "90%",
+    height: "60%",
     alignItems: "center",
     borderRadius: 15,
-    marginTop: "2%",
   },
   allMatchesContainer: {
     alignItems: "center",
@@ -46,12 +47,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
   },
-  percentMatchesContainer:{
+  informationLabelType3: {
+    fontSize: 18,
+    fontWeight: "300",
+  },
+  percentMatchesContainer: {
     flexDirection: "row",
     marginHorizontal: "6%",
     justifyContent: "space-between",
     marginVertical: "5%",
-  }
+  },
 });
 
 export { styles };

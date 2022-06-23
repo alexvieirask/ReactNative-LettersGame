@@ -5,8 +5,9 @@ const SeparatorLine = ({ height, color }) => {
     container: {
       height: height,
       backgroundColor: color,
-      width:'100%',
       marginVertical:'2%',
+      marginHorizontal:'5%',
+ 
     },
   });
   return<View style={styles.container} />;

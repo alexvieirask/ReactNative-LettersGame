@@ -16,7 +16,7 @@ export default function AnswerCheck({
     content: null,
     word: word,
   });
-  const colorStatus = wordstatus == "Winner" ? Colors.SUCCESS : Colors.ERROR;
+  const colorStatus = wordstatus == "Winner" ? Colors.WINNER : Colors.LOSER;
   const onClose = () => {
     setShowAlert(false), ActionPress();
   };

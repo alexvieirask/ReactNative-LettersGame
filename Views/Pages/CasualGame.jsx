@@ -527,8 +527,6 @@ export default function CasualGame() {
       }
     }
   };
- 
-
   const status = {
     firstLine: statusFirstLine(),
     secondLine:statusSecondLine(),

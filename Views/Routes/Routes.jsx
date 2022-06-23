@@ -23,7 +23,7 @@ export default function Routes() {
           headerTransparent: true,
           headerTitleAlign: "center",
           headerStyle:{
-            height:80
+            height:65
           },
           title: null,
         }}

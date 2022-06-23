@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { View, Text, SafeAreaView } from "react-native";
-import SeparatorLine from "../../components/SeparatorLine";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { VictoryPie } from "victory-native";
 import { styles } from "../../assets/styles/Profile";
+import SeparatorLine from "../../components/SeparatorLine";
 
 export default function Profile() {
   const {getItem} = useAsyncStorage("@statistics:matches")
@@ -29,51 +29,61 @@ export default function Profile() {
         structures.push({
           label: "Vitórias",
           value: data.wonGames,
-          color: "#FFF",
+          color: "#00b509",
         })
       }
       if (data.lostGames>0){
         structures.push({
           label: "Derrotas",
           value: data.lostGames,
-          color: "#525252",
+          color: "#fc2c03",
         })
       }
     return structures
   } 
-    
   useEffect(() => {
       getStatistics();
     }, []);
-    
-      return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.body}>
-          <Text style={styles.tittle}>ESTATÍSTICAS</Text>
-            <SeparatorLine height={2} color={"#FFF"} />
-            <Text style={styles.subtittle}>PARTIDAS JOGADAS</Text>
-            <Text style={styles.numberSubtittle}>
-              {data.allMatches}
-            </Text>
-            <View style={{ justifyContent: "center", alignItems: "center"}}>
+ 
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.body}>
+        <Text style={styles.tittle}>Estatísticas</Text>
+        <SeparatorLine height={1} color={"#FFF"} />
+        <View style={{ justifyContent: "center" }}>
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.subtittle}>Suas Partidas</Text>
+            <View style={styles.graphicContainer}>
               <VictoryPie
                 data={datasGraphic()}
-                x={"label"}
-                y={"value"}
-                innerRadius={80}
-                padAngle={({ datum }) => datum.y}
+                x={(element) => element.label}
+                y={(element) => element.value}
+                colorScale={datasGraphic().map((element) => element.color)}
+                padAngle={({ datum }) => datum.value}
+                innerRadius={70}
                 style={{
                   labels: {
-                    fill: "#FFF",
-                    fontSize: 18,
-                    fontWeight:'700'
-                  
+                    fill: "#000",
+                    fontSize: 14,
                   },
                 }}
-                padding={100}
-                colorScale={datasGraphic().map((element) => element.color)}
+                padding={30}
+                height={250}
               />
             </View>
           </View>
-        </SafeAreaView>
-      )}
+          <Text style={styles.tittle}>Informações</Text>
+          <SeparatorLine height={1} color={"#fff"} />
+          <View style={styles.allMatchesContainer}>
+            <Text style={styles.informationLabelType1}>PARTIDAS JOGADAS</Text>
+            <Text style={styles.informationLabelType2}>{data.allMatches}</Text>
+          </View>
+          <View style={styles.percentMatchesContainer}>
+            <Text style={styles.informationLabelType1}>Derrotas: {data.percentLost}</Text>
+            <Text style={styles.informationLabelType1}>Vitórias: {data.percentWon}</Text>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}

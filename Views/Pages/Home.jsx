@@ -25,6 +25,8 @@ export default function Home() {
     }
   }
 
+
+
   useEffect(() => {
     statisticsInitial();
   }, []);

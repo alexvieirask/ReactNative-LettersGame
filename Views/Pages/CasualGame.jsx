@@ -9,7 +9,7 @@ import words from "../../services/words";
 import Keyboard from "../../components/keyboard/keyboard";
 import { setMatchesPlayed, setMatchWinner } from "../../services/asyncStorage";
 import { statusFirstLine,statusSecondLine,statusThreeLine,statusFourLine,statusFiveLine,statusSixLine } from "../../services/rowsStylesFunctions";
-import { stringfyRow, allRowsStringfy, lineLenghtMax, randomWord } from "../../services/gamefunctions";
+import { stringfyRow, allRowsStringfy, lineLenghtMax, randomWord } from "../../services/gameFunctions";
 import {  default_row } from "../../services/structures";  
 
 export default function CasualGame() {

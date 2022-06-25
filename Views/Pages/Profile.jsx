@@ -22,41 +22,38 @@ export default function Profile() {
       duration: 750,
       useNativeDriver: false,
     }).start();
-};
-
-const getStorageData = async () => {
-  try{
-    var results = await getItem()
-    var JSONresults = JSON.parse(results)
-    JSONresults.allMatches = JSONresults.wonGames + JSONresults.lostGames
-    if (JSONresults.percentWon != '0%' | JSONresults.percentLost != '0%'){
-      JSONresults.percentWon = `${((JSONresults.wonGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
-      JSONresults.percentLost = `${((JSONresults.lostGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
-    } 
-    setData(JSONresults)
-  }
-  catch(error){
-    console.log(error)
-  }
-};
- 
-const setDataGraphic = () =>{
-  var graphic_data = graphic
-  graphic_data.victory.value = data.wonGames
-  graphic_data. defeat.value = data.lostGames
-  return graphic_data
-};
-const getDataGraphic = () =>{
-  var graphic_data = []
-  if (data.wonGames>0){
-    graphic_data.push(setDataGraphic().victory)
-  }
-  if (data.lostGames>0){
-    graphic_data.push(setDataGraphic().defeat)
-  }
-  return graphic_data
-};
-
+  };
+  const getStorageData = async () => {
+    try{
+      var results = await getItem()
+      var JSONresults = JSON.parse(results)
+      JSONresults.allMatches = JSONresults.wonGames + JSONresults.lostGames
+      if (JSONresults.percentWon != '0%' | JSONresults.percentLost != '0%'){
+        JSONresults.percentWon = `${((JSONresults.wonGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
+        JSONresults.percentLost = `${((JSONresults.lostGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
+      } 
+      setData(JSONresults)
+    }
+    catch(error){
+      console.log(error)
+    }
+  };
+  const setDataGraphic = () =>{
+    var graphic_data = graphic
+    graphic_data.victory.value = data.wonGames
+    graphic_data. defeat.value = data.lostGames
+    return graphic_data
+  };
+  const getDataGraphic = () =>{
+    var graphic_data = []
+    if (data.wonGames>0){
+      graphic_data.push(setDataGraphic().victory)
+    }
+    if (data.lostGames>0){
+      graphic_data.push(setDataGraphic().defeat)
+    }
+    return graphic_data
+  };
   useEffect(() => {
     animationOpacity()
     getStorageData()

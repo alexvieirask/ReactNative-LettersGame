@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Profile from "../Pages/Profile";
 import Home from "../Pages/Home";
 import CasualGame from "../Pages/CasualGame";
+import HowToplay from "../Pages/HowToPlay";
 const Stack = createStackNavigator();
 
 export default function Routes() {
@@ -21,7 +22,6 @@ export default function Routes() {
         options={{
           headerTintColor: "#FFF",
           headerTransparent: true,
-          headerTitleAlign: "center",
           headerStyle:{
             height:65
           },
@@ -33,6 +33,19 @@ export default function Routes() {
         component={CasualGame}
         options={{
           headerShown: false,
+        }}
+      />
+
+    <Stack.Screen
+        name="HowToPlay"
+        component={HowToplay}
+       options={{
+          headerTintColor: "#FFF",
+          headerTransparent: true,
+          headerStyle:{
+            height:65
+          },
+          title: null,
         }}
       />
     </Stack.Navigator>

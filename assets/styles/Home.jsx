@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignItems: "flex-end",
+    marginBottom:'25%'
   },
   tittle: {
     fontSize: 42,
     fontWeight: "400",
     color: "#fff",
-    marginTop: "10%",
   },
   subtittle: {
     fontSize: 20,
@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
   },
   buttons: {
     justifyContent: "center",
+    bottom:'10%',
     width: "80%",
-    height: "75%",
+    height: "72%",
   },
 });
 

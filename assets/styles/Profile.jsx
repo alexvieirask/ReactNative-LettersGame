@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../config/General/Colors";
+import Fonts from "../../config/General/Fonts";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   },
   informationLabelType3: {
     fontSize: 18,
-    fontWeight: "300",
+    fontWeight: Fonts.HAIRLINE,
   },
   percentMatchesContainer: {
     flexDirection: "row",

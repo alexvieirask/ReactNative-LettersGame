@@ -44,12 +44,11 @@ export default function Profile() {
   useEffect(() => {
       getStatistics();
     }, []);
- 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
         <Text style={styles.tittle}>Estatísticas</Text>
-        <SeparatorLine height={1} color={"#FFF"} />
+        <SeparatorLine height={1} color={"#FFF"} mH={'5%'} />
         <View style={{ justifyContent: "center" }}>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.subtittle}>Suas Partidas</Text>
@@ -70,11 +69,9 @@ export default function Profile() {
                 padding={50}
                 height={260}
               />: <Text style={styles.informationLabelType3}>Não há nada para ser mostrado</Text>}
-             
             </View>
-          </View>
-         
-          <SeparatorLine height={1} color={"#fff"} />
+          </View>    
+          <SeparatorLine height={1} color={"#fff"}  mH={'5%'} />
           <View style={styles.allMatchesContainer}>
             <Text style={styles.informationLabelType1}>PARTIDAS JOGADAS</Text>
             <Text style={styles.informationLabelType2}>{data.allMatches}</Text>

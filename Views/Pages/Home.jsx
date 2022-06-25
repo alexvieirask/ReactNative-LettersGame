@@ -1,12 +1,13 @@
-import { View, Text, SafeAreaView, StatusBar } from "react-native";
+import { View, Text, SafeAreaView, StatusBar, TouchableOpacity } from "react-native";
 import ButtonSimple from "../../components/buttons/ButtonSimple";
 import { useEffect } from "react";
 import { styles } from "../../assets/styles/Home";
 import  AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import SeparatorLine from "../../components/SeparatorLine";
+import { useNavigation } from "@react-navigation/native";
 export default function Home() {
+  const navigation = useNavigation();
   const {setItem} = useAsyncStorage("@statistics:matches")
-  
   async function statisticsInitial() {
     try{
       var results = await AsyncStorage.getAllKeys();
@@ -27,14 +28,14 @@ export default function Home() {
   useEffect(() => {
     statisticsInitial();
   }, []);
-
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="default" />
       <View style={styles.body}>
         <View style={styles.icon}>
-          <Text style={styles.howPlay}>COMO JOGAR</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("HowToPlay")}>
+            <Text style={styles.howPlay}>COMO JOGAR</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.page}>
           <Text style={styles.tittle}>LETTERS</Text>

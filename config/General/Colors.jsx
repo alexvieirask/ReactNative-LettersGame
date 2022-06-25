@@ -5,7 +5,8 @@ const Colors = {
   SQUARE_KEYBOARD:'#FFF',
   TOAST_LABEL: '#FFF',
   WINNER: '#109c00',
-  LOSER:'#ad0014'
+  LOSER:'#ad0014',
+  ERROR:'#e30922'
 };
 export default Colors;
 

@@ -9,14 +9,14 @@ export default {
     },
     YELLOW: {
       background: "#ffb026",
-      border: "#FFF",
+      border: "#ffb026",
     },
     GREEN: {
       background: "#22a800",
-      border: "#1b7d02",
+      border: "#22a800",
     },
     RED: {
       background: "#b6bfb4",
-      border: "#949494",
+      border: "#b6bfb4",
     },
   }

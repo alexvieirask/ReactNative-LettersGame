@@ -1,11 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native";
+import { View, Text, StatusBar, SafeAreaView } from "react-native";
 import SeparatorLine from "../../components/SeparatorLine";
 import RowSquare from "../../components/mapword/rowSquare";
-import Colors from "../../config/General/Colors";
+import { styles } from "../../assets/styles/HowToPlay";
+import { example_row } from "../../services/structures";
 export default function HowToplay() {
-  const word = ["A", "R", "T", "E", "S"];
-  const status = ["GREEN", "YELLOW", "YELLOW", "RED", "GREEN"];
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="default" />
@@ -36,8 +35,8 @@ export default function HowToplay() {
           <View style={{ paddingTop: "2%" }}>
             <Text style={styles.tittle}>Cores</Text>
           </View>
-          <View style={{ marginTop: "2%", backgroundColor:'#FFF',padding:'4%',borderRadius:20}}>
-            <RowSquare letters={word} status={status} wordcomplete={true} />
+          <View style={styles.containerExampleRow}>
+            <RowSquare letters={example_row.word} status={example_row.status} wordcomplete={true} />
           </View>
 
           <View style={{ marginTop: "5%" }}>
@@ -62,32 +61,3 @@ export default function HowToplay() {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  page: {
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: Colors.GAME_BACKGROUND,
-  },
-  body: {
-    flex: 1,
-    paddingTop: "10%",
-    paddingHorizontal: "10%",
-  },
-  bodyContainer: {
-    flex: 1,
-    marginTop: "15%",
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-    backgroundColor: "#e8e8e8",
-  },
-  tittle: {
-    fontSize: 30,
-    fontWeight: "500",
-  },
-  paragraph: {
-    textAlign: "justify",
-    fontSize: 15,
-  },
-});

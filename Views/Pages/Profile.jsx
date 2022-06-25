@@ -1,64 +1,81 @@
 import { useState, useEffect } from "react";
-import { View, Text, SafeAreaView } from "react-native";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { View, Text, SafeAreaView,Animated,StyleSheet} from "react-native";
+import { getItem } from "../../services/asyncStorage";
 import { VictoryPie } from "victory-native";
 import { styles } from "../../assets/styles/Profile";
 import SeparatorLine from "../../components/SeparatorLine";
+import { graphic } from "../../services/structures";
 
 export default function Profile() {
-  const {getItem} = useAsyncStorage("@statistics:matches")
   const [data, setData] =  useState({});
-  const getStatistics = async () => {
-    try{
-      var results = await getItem()
-      var JSONresults = JSON.parse(results)
-      JSONresults.allMatches = JSONresults.wonGames + JSONresults.lostGames
-      if (JSONresults.percentWon != '0%' | JSONresults.percentLost != '0%'){
-        JSONresults.percentWon = `${((JSONresults.wonGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
-        JSONresults.percentLost = `${((JSONresults.lostGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
-      } 
-      setData(JSONresults)
+  const [op,setOp] = useState(new Animated.Value(0));
+  const styleAnimated = StyleSheet.create({
+    bodyConteiner:{
+    marginTop:'5%',
+    marginHorizontal:'2%',
+    opacity:op
     }
-    catch(error){
-      console.log(error)
-    }
+  }) 
+  const animationOpacity = () => {
+    Animated.timing(op, {
+      toValue: 1,
+      duration: 750,
+      useNativeDriver: false,
+    }).start();
+};
+
+const getStorageData = async () => {
+  try{
+    var results = await getItem()
+    var JSONresults = JSON.parse(results)
+    JSONresults.allMatches = JSONresults.wonGames + JSONresults.lostGames
+    if (JSONresults.percentWon != '0%' | JSONresults.percentLost != '0%'){
+      JSONresults.percentWon = `${((JSONresults.wonGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
+      JSONresults.percentLost = `${((JSONresults.lostGames / (JSONresults.wonGames + JSONresults.lostGames)) * 100).toFixed()}%`
+    } 
+    setData(JSONresults)
   }
-  const datasGraphic = () =>{
-    var structures = []
-      if (data.wonGames>0){
-        structures.push({
-          label: "Vitórias",
-          value: data.wonGames,
-          color: "#00b509",
-        })
-      }
-      if (data.lostGames>0){
-        structures.push({
-          label: "Derrotas",
-          value: data.lostGames,
-          color: "#fc2c03",
-        })
-      }
-    return structures
-  } 
+  catch(error){
+    console.log(error)
+  }
+};
+ 
+const setDataGraphic = () =>{
+  var graphic_data = graphic
+  graphic_data.victory.value = data.wonGames
+  graphic_data. defeat.value = data.lostGames
+  return graphic_data
+};
+const getDataGraphic = () =>{
+  var graphic_data = []
+  if (data.wonGames>0){
+    graphic_data.push(setDataGraphic().victory)
+  }
+  if (data.lostGames>0){
+    graphic_data.push(setDataGraphic().defeat)
+  }
+  return graphic_data
+};
+
   useEffect(() => {
-      getStatistics();
+    animationOpacity()
+    getStorageData()
     }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
+        <Animated.View style={styleAnimated.bodyConteiner}>
         <Text style={styles.tittle}>Estatísticas</Text>
         <SeparatorLine height={1} color={"#FFF"} mH={'5%'} />
-        <View style={{ justifyContent: "center" }}>
+        <View style={{ justifyContent: "center" }}>      
           <View style={{ alignItems: "center" }}>
             <Text style={styles.subtittle}>Suas Partidas</Text>
             <View style={styles.graphicContainer}>
               {data.allMatches>0 ?  <VictoryPie
-                data={datasGraphic()}
+                data={getDataGraphic()}
                 x={(element) => element.label}
                 y={(element) => element.value}
-                colorScale={datasGraphic().map((element) => element.color)}
-                padAngle={({ datum }) => datum.value}
+                colorScale={getDataGraphic().map((element) => element.color)}
                 innerRadius={60}
                 style={{
                   labels: {
@@ -80,8 +97,9 @@ export default function Profile() {
             <Text style={styles.informationLabelType1}>Derrotas: {data.percentLost}</Text>
             <Text style={styles.informationLabelType1}>Vitórias: {data.percentWon}</Text>
           </View>
+          </View>
+        </Animated.View>
         </View>
-      </View>
     </SafeAreaView>
   );
 }

@@ -902,6 +902,7 @@ export default [
   "TORTO",
   "TRELA",
   "TERNO",
+  "TESTE",
   "TURBO",
   "TOLOS",
   "TORTA",

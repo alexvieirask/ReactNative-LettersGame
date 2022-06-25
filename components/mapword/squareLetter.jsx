@@ -1,9 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import styleStructureSquare from "../../services/styleStructureSquare";
+import { styles_square } from "../../services/structures";
 import { styles } from "../../assets/styles/SquareLetter";
 const SquareLetter = ({ letter, status, wordcomplete }) => {
-  const structure = styleStructureSquare;
+  const structure = styles_square
   const styleSquare = () =>{
     var style = {
       background: null,
@@ -11,24 +11,24 @@ const SquareLetter = ({ letter, status, wordcomplete }) => {
     };
   
     if (wordcomplete == false) {
-      if (status == "ONFOCUS") {
-        style = structure.ONFOCUS;
+      if (status == "focus") {
+        style = structure.focus;
       } else {
-        style = structure.DEFAULT;
+        style = structure.default;
       }
     }
    
     if (wordcomplete == true) {
-      if (status == "GREEN") {
-        style = structure.GREEN;
+      if (status == "green") {
+        style = structure.green;
       }
   
-      if (status == "YELLOW") {
-        style = structure.YELLOW;
+      if (status == "yellow") {
+        style = structure.yellow;
       }
   
-      if (status == "RED") {
-        style = structure.RED;
+      if (status == "red") {
+        style = structure.red;
       }
     }
     return style

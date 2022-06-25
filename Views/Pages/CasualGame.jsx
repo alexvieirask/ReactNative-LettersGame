@@ -7,80 +7,43 @@ import AnswerCheck from "../../components/modals/AnswerCheck";
 import ToastWarning from "../../components/modals/ToastWarning";
 import words from "../../services/words";
 import Keyboard from "../../components/keyboard/keyboard";
-import  { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { setMatchesPlayed, setMatchWinner } from "../../services/asyncStorage";
+import { statusFirstLine,statusSecondLine,statusThreeLine,statusFourLine,statusFiveLine,statusSixLine } from "../../services/rowsStylesFunctions";
+import { stringfyRow, allRowsStringfy, lineLenghtMax, randomWord } from "../../services/gamefunctions";
+import {  default_row } from "../../services/structures";  
 
 export default function CasualGame() {
-  const {getItem,setItem,removeItem} = useAsyncStorage("@statistics:matches")
-  const listWords = words
-  const DEFAULT_ROW = {
-    letters: [],
-    word_complete: false,
-  };
-  const KEYS = {
-    ONFOCUS: "ONFOCUS",
-    DEFAULT: "DEFAULT",
-    GREEN: "GREEN",
-    YELLOW: "YELLOW",
-    RED: "RED"
-  };
-  const [Toast, setToast] = useState({
-    visible: false,
-    message: "Palavra não encontrada",
-  });
+  const [Toast, setToast] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [word, setWord] = useState(null);
+  const [word, setWord] = useState('game start');
   const [letter, setLetter] = useState(null);
   const [wordStatus, setWordStatus] = useState(null);
-  const [firstRow, setFirstRow] = useState(DEFAULT_ROW);
-  const [secondRow, setSecondRow] = useState(DEFAULT_ROW);
-  const [threeRow, setThreeRow] = useState(DEFAULT_ROW);
-  const [fourRow, setFourRow] = useState(DEFAULT_ROW);
-  const [fiveRow, setFiveRow] = useState(DEFAULT_ROW);
-  const [sixRow, setSixRow] = useState(DEFAULT_ROW);
-  
-  const countMatchesPlayed = async () =>{
-    try{
-      var results = await getItem();
-      var JSONitem = JSON.parse(results);
-      const statistics = {
-        wonGames: JSONitem.wonGames,
-        lostGames: JSONitem.lostGames + 1,
-      }
-      await removeItem()
-      await setItem(JSON.stringify(statistics)
-      )
-    }
-    catch(error){
-      console.log(error) 
-    }
-    
-  };
-  const setMatchWinner = async () =>{
-    try{
-      var results = await getItem();
-      var JSONitem = JSON.parse(results);
-      const statistics = {
-        wonGames: JSONitem.wonGames + 1,
-        lostGames: JSONitem.lostGames - 1}
-      await removeItem()
-      await setItem(JSON.stringify(statistics));
-    }
-    catch(error){
-      console.log(error)
-    }
-    
+  const [firstRow, setFirstRow] = useState(default_row);
+  const [secondRow, setSecondRow] = useState(default_row);
+  const [threeRow, setThreeRow] = useState(default_row);
+  const [fourRow, setFourRow] = useState(default_row);
+  const [fiveRow, setFiveRow] = useState(default_row);
+  const [sixRow, setSixRow] = useState(default_row);
+  const rows_letters = [firstRow.letters,secondRow.letters,threeRow.letters,fourRow.letters,fiveRow.letters,sixRow.letters]
+  const status = {
+    firstLine: statusFirstLine(firstRow.word_complete,firstRow.letters,word),
+    secondLine:statusSecondLine(firstRow.word_complete,secondRow.word_complete,secondRow.letters,word),
+    threeLine:statusThreeLine(secondRow.word_complete,threeRow.word_complete,threeRow.letters,word),
+    fourLine:statusFourLine(threeRow.word_complete,fourRow.word_complete,fourRow.letters,word),
+    fiveLine:statusFiveLine(fourRow.word_complete,fiveRow.word_complete,fiveRow.letters,word),
+    sixLine:statusSixLine(fiveRow.word_complete,sixRow.word_complete,sixRow.letters,word),
   };
   const resetGame = () => {
-    setFirstRow(DEFAULT_ROW);
-    setSecondRow(DEFAULT_ROW);
-    setThreeRow(DEFAULT_ROW);
-    setFourRow(DEFAULT_ROW);
-    setFiveRow(DEFAULT_ROW);
-    setSixRow(DEFAULT_ROW);
-    setWord(null);
+    setFirstRow(default_row);
+    setSecondRow(default_row);
+    setThreeRow(default_row);
+    setFourRow(default_row);
+    setFiveRow(default_row);
+    setSixRow(default_row);
+    setWord('game start');
   };
   const gameStatus = () => {
-    if (allLinesStringfy().includes(word)) {
+    if (allRowsStringfy(rows_letters).includes(word)){
       setWordStatus("Winner");
       setShowAlert(true);
       setMatchWinner();
@@ -91,369 +54,49 @@ export default function CasualGame() {
       }
     }
   };
-  const randomWord = () => {
-    return words[Math.floor(Math.random() * words.length)];
-  };
   const defineWord = () => {
-    word == null && setWord(randomWord().toUpperCase());
-  };
-  const firstLineStringfy = () => {
-    return `${firstRow.letters[0]}${firstRow.letters[1]}${firstRow.letters[2]}${firstRow.letters[3]}${firstRow.letters[4]}`;
-  };
-  const secondLineStringfy = () => {
-    return `${secondRow.letters[0]}${secondRow.letters[1]}${secondRow.letters[2]}${secondRow.letters[3]}${secondRow.letters[4]}`;
-  };
-  const threeLineStringfy = () => {
-    return `${threeRow.letters[0]}${threeRow.letters[1]}${threeRow.letters[2]}${threeRow.letters[3]}${threeRow.letters[4]}`;
-  };
-  const fourLineStringfy = () => {
-    return `${fourRow.letters[0]}${fourRow.letters[1]}${fourRow.letters[2]}${fourRow.letters[3]}${fourRow.letters[4]}`;
-  };
-  const fiveLineStringfy = () => {
-    return `${fiveRow.letters[0]}${fiveRow.letters[1]}${fiveRow.letters[2]}${fiveRow.letters[3]}${fiveRow.letters[4]}`;
-  };
-  const sixLineStringfy = () => {
-    return `${sixRow.letters[0]}${sixRow.letters[1]}${sixRow.letters[2]}${sixRow.letters[3]}${sixRow.letters[4]}`;
-  };
-  const allLinesStringfy = () => {
-    return [firstLineStringfy(),secondLineStringfy(),threeLineStringfy(),fourLineStringfy(),fiveLineStringfy(),sixLineStringfy()]
-  };
-  const statusFirstLineWordIncomplete = () => {
-    var statusFirstRow = [];
-    if (firstRow.letters.length == 0) {
-      statusFirstRow.push(KEYS.ONFOCUS);
-    }
-    if (firstRow.letters.length > 0) {
-      for (var i = 0; i <= firstRow.letters.length; i++) {
-        statusFirstRow.push(KEYS.DEFAULT);
-      }
-      statusFirstRow.pop();
-      statusFirstRow.push(KEYS.ONFOCUS);
-    }
-    if (statusFirstRow.length == 6) {
-      statusFirstRow.shift();
-    }
-    return statusFirstRow;
-  };
-  const statusFirstLineWordComplete = () => {
-    var statusFirstRow = [];
-    for (var i = 0; i < word.length; i++) {
-      if (word[i] == firstLineStringfy()[i]) {
-        statusFirstRow.push(KEYS.GREEN);
-      } else {
-        statusFirstRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusFirstRow.length; i++) {
-      if (statusFirstRow[i] == KEYS.DEFAULT) {
-        if (word.includes(firstLineStringfy()[i])) {
-          statusFirstRow[i] = KEYS.YELLOW;
-        } else {
-          statusFirstRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusFirstRow;
-  };
-  const statusSecondLineWordIncomplete = () => {
-    var statusSecondRow = [];
-    if (secondRow.letters.length == 0) {
-      statusSecondRow.push(KEYS.ONFOCUS);
-    }
-    if (secondRow.letters.length > 0) {
-      for (var i = 0; i <= secondRow.letters.length; i++) {
-        statusSecondRow.push(KEYS.DEFAULT);
-      }
-      statusSecondRow.pop();
-      statusSecondRow.push(KEYS.ONFOCUS);
-    }
-    if (statusSecondRow.length == 6) {
-      statusSecondRow.shift();
-    }
-    return statusSecondRow;
-  };
-  const statusSecondLineWordComplete = () => {
-    var statusSecondRow = [];
-    for (var i = 0; i < secondRow.letters.length; i++) {
-      if (word[i] == secondLineStringfy()[i]) {
-        statusSecondRow.push(KEYS.GREEN);
-      } else {
-        statusSecondRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusSecondRow.length; i++) {
-      if (statusSecondRow[i] == KEYS.DEFAULT) {
-        if (word.includes(secondLineStringfy()[i])) {
-          statusSecondRow[i] = KEYS.YELLOW;
-        } else {
-          statusSecondRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusSecondRow;
-  };
-  const statusThreeLineWordIncomplete = () => {
-    var statusThreeRow = [];
-    if (threeRow.letters.length == 0) {
-      statusThreeRow.push(KEYS.ONFOCUS);
-    }
-    if (threeRow.letters.length > 0) {
-      for (var i = 0; i <= threeRow.letters.length; i++) {
-        statusThreeRow.push(KEYS.DEFAULT);
-      }
-      statusThreeRow.pop();
-      statusThreeRow.push(KEYS.ONFOCUS);
-    }
-
-    if (statusThreeRow.length == 6) {
-      statusThreeRow.shift();
-    }
-    return statusThreeRow;
-  };
-  const statusThreeLineWordComplete = () => {
-    var statusThreeRow = [];
-    for (var i = 0; i < threeRow.letters.length; i++) {
-      if (word[i] == threeLineStringfy()[i]) {
-        statusThreeRow.push(KEYS.GREEN);
-      } else {
-        statusThreeRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusThreeRow.length; i++) {
-      if (statusThreeRow[i] == KEYS.DEFAULT) {
-        if (word.includes(threeLineStringfy()[i])) {
-          statusThreeRow[i] = KEYS.YELLOW;
-        } else {
-          statusThreeRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusThreeRow;
-  };
-  const statusFourLineWordIncomplete = () => {
-    var statusFourRow = [];
-    if (fourRow.letters.length == 0) {
-      statusFourRow.push(KEYS.ONFOCUS);
-    }
-    if (fourRow.letters.length > 0) {
-      for (var i = 0; i <= fourRow.letters.length; i++) {
-        statusFourRow.push(KEYS.DEFAULT);
-      }
-      statusFourRow.pop();
-      statusFourRow.push(KEYS.ONFOCUS);
-    }
-
-    if (statusFourRow.length == 6) {
-      statusFourRow.shift();
-    }
-    return statusFourRow;
-  };
-  const statusFourLineWordComplete = () => {
-    var statusFourRow = [];
-    for (var i = 0; i < fourRow.letters.length; i++) {
-      if (word[i] == fourLineStringfy()[i]) {
-        statusFourRow.push(KEYS.GREEN);
-      } else {
-        statusFourRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusFourRow.length; i++) {
-      if (statusFourRow[i] == KEYS.DEFAULT) {
-        if (word.includes(fourLineStringfy()[i])) {
-          statusFourRow[i] = KEYS.YELLOW;
-        } else {
-          statusFourRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusFourRow;
-  };
-  const statusFiveLineWordIncomplete = () => {
-    var statusFiveRow = [];
-    if (fiveRow.letters.length == 0) {
-      statusFiveRow.push(KEYS.ONFOCUS);
-    }
-    if (fiveRow.letters.length > 0) {
-      for (var i = 0; i <= fiveRow.letters.length; i++) {
-        statusFiveRow.push(KEYS.DEFAULT);
-      }
-      statusFiveRow.pop();
-      statusFiveRow.push(KEYS.ONFOCUS);
-    }
-    if (statusFiveRow.length == 6) {
-      statusFiveRow.shift();
-    }
-    return statusFiveRow;
-  };
-  const statusFiveLineWordComplete = () => {
-    var statusFiveRow = [];
-    for (var i = 0; i < fiveRow.letters.length; i++) {
-      if (word[i] == fiveLineStringfy()[i]) {
-        statusFiveRow.push(KEYS.GREEN);
-      } else {
-        statusFiveRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusFiveRow.length; i++) {
-      if (statusFiveRow[i] == KEYS.DEFAULT) {
-        if (word.includes(fiveLineStringfy()[i])) {
-          statusFiveRow[i] = KEYS.YELLOW;
-        } else {
-          statusFiveRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusFiveRow;
-  };
-  const statusSixLineWordIncomplete = () => {
-    var statusSixRow = [];
-    if (sixRow.letters.length == 0) {
-      statusSixRow.push(KEYS.ONFOCUS);
-    }
-    if (sixRow.letters.length > 0) {
-      for (var i = 0; i <= sixRow.letters.length; i++) {
-        statusSixRow.push(KEYS.DEFAULT);
-      }
-      statusSixRow.pop();
-      statusSixRow.push(KEYS.ONFOCUS);
-    }
-    if (statusSixRow.length == 6) {
-      statusSixRow.shift();
-    }
-    return statusSixRow;
-  };
-  const statusSixLineWordComplete = () => {
-    var statusSixRow = [];
-    for (var i = 0; i < sixRow.letters.length; i++) {
-      if (word[i] == sixLineStringfy()[i]) {
-        statusSixRow.push(KEYS.GREEN);
-      } else {
-        statusSixRow.push(KEYS.DEFAULT);
-      }
-    }
-    for (var i = 0; i < statusSixRow.length; i++) {
-      if (statusSixRow[i] == KEYS.DEFAULT) {
-        if (word.includes(sixLineStringfy()[i])) {
-          statusSixRow[i] = KEYS.YELLOW;
-        } else {
-          statusSixRow[i] = KEYS.RED;
-        }
-      }
-    }
-    return statusSixRow;
-  };
-  const statusFirstLine = () => {
-    var statusFirstRow = [];
-    if (firstRow.word_complete == false) {
-      statusFirstRow = statusFirstLineWordIncomplete();
-    } else {
-      statusFirstRow = statusFirstLineWordComplete();
-    }
-    return statusFirstRow;
-  };
-  const statusSecondLine = () => {
-    var statusSecondRow = [];
-    if ((secondRow.word_complete == false) & (firstRow.word_complete == true)) {
-      statusSecondRow = statusSecondLineWordIncomplete();
-    } else {
-      statusSecondRow = statusSecondLineWordComplete();
-    }
-    return statusSecondRow;
-  };
-  const statusThreeLine = () => {
-    var statusThreeRow = [];
-    if ((threeRow.word_complete == false) & (secondRow.word_complete == true)) {
-      statusThreeRow = statusThreeLineWordIncomplete();
-    } else {
-      statusThreeRow = statusThreeLineWordComplete();
-    }
-    return statusThreeRow;
-  };
-  const statusFourLine = () => {
-    var statusFourRow = [];
-    if ((fourRow.word_complete == false) & (threeRow.word_complete == true)) {
-      statusFourRow = statusFourLineWordIncomplete();
-    } else {
-      statusFourRow = statusFourLineWordComplete();
-    }
-    return statusFourRow;
-  };
-  const statusFiveLine = () => {
-    var statusFiveRow = [];
-    if ((fiveRow.word_complete == false) & (fourRow.word_complete == true)) {
-      statusFiveRow = statusFiveLineWordIncomplete();
-    } else {
-      statusFiveRow = statusFiveLineWordComplete();
-    }
-    return statusFiveRow;
-  };
-  const statusSixLine = () => {
-    var statusSixRow = [];
-    if ((sixRow.word_complete == false) & (fiveRow.word_complete == true)) {
-      statusSixRow = statusSixLineWordIncomplete();
-    } else {
-      statusSixRow = statusSixLineWordComplete();
-    }
-    return statusSixRow;
-  };
-  const firstLineLenghtMax = () => {
-    return firstRow.letters.length == 5;
-  };
-  const secondLineLenghtMax = () => {
-    return secondRow.letters.length == 5;
-  };
-  const threeLineLenghtMax = () => {
-    return threeRow.letters.length == 5;
-  };
-  const fourLineLenghtMax = () => {
-    return fourRow.letters.length == 5;
-  };
-  const fiveLineLenghtMax = () => {
-    return fiveRow.letters.length == 5;
-  };
-  const sixLineLenghtMax = () => {
-    return sixRow.letters.length == 5;
-  };
+    word == 'game start' && setWord(randomWord().toUpperCase());
+  }
   const verifyFirstLineWord = () =>{
-    if (listWords.includes(firstLineStringfy())) {
+    if (words.includes(stringfyRow(firstRow.letters))) {
      setFirstRow({ ...firstRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const verifySecondLineWord = () =>{
-    if (listWords.includes(secondLineStringfy())) {
+    if (words.includes(stringfyRow(secondRow.letters))) {
     setSecondRow({ ...secondRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const verifyThreeLineWord = () =>{
-    if (listWords.includes(threeLineStringfy())) {
+    if (words.includes(stringfyRow(threeRow.letters))) {
       setThreeRow({ ...threeRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const verifyFourLineWord = () =>{
-    if (listWords.includes(fourLineStringfy())) {
+    if (words.includes(stringfyRow(fourRow.letters))) {
       setFourRow({ ...fourRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const verifyFiveLineWord = () =>{
-    if (listWords.includes(fiveLineStringfy())) {
+    if (words.includes(stringfyRow(fiveRow.letters))) {
       setFiveRow({ ...fiveRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const verifySixLineWord = () =>{
-    if (listWords.includes(sixLineStringfy())) {
+    if (words.includes(stringfyRow(sixRow.letters))) {
       setSixRow({ ...sixRow, word_complete: true });
     } else {
-      setToast({ ...Toast, visible: true });
+      setToast(true);
     }
   };
   const onPressEnter = () =>{
@@ -500,22 +143,22 @@ export default function CasualGame() {
     if (letter != undefined) {
       const Letter = letter.trim();
       if (Letter != "Delete" & Letter != "Enter") {
-        if (firstLineLenghtMax() == false) {
+        if (lineLenghtMax(rows_letters[0]) == false) {
           setFirstRow({...firstRow, letters: [...firstRow.letters, Letter] });
         }
-        if (secondLineLenghtMax() == false & firstRow.word_complete == true) {
+        if (lineLenghtMax(rows_letters[1]) == false & firstRow.word_complete == true) {
           setSecondRow({...secondRow, letters:[...secondRow.letters, Letter]});
         }
-        if (threeLineLenghtMax() == false & secondRow.word_complete == true) {
+        if (lineLenghtMax(rows_letters[2]) == false & secondRow.word_complete == true) {
           setThreeRow({...threeRow, letters: [...threeRow.letters, Letter]});
         }
-        if (fourLineLenghtMax() == false & threeRow.word_complete == true){
+        if (lineLenghtMax(rows_letters[3]) == false & threeRow.word_complete == true){
           setFourRow({...fourRow, letters: [...fourRow.letters, Letter]});
         }
-        if (fiveLineLenghtMax() == false & fourRow.word_complete == true) {
+        if (lineLenghtMax(rows_letters[4]) == false & fourRow.word_complete == true) {
           setFiveRow({...fiveRow, letters: [...fiveRow.letters, Letter]});
         }
-        if (sixLineLenghtMax() == false & fiveRow.word_complete == true) {
+        if (lineLenghtMax(rows_letters[5]) == false & fiveRow.word_complete == true) {
           setSixRow({...sixRow, letters: [...sixRow.letters, Letter]});
         }
       }   
@@ -527,29 +170,16 @@ export default function CasualGame() {
       }
     }
   };
-  const status = {
-    firstLine: statusFirstLine(),
-    secondLine:statusSecondLine(),
-    threeLine:statusThreeLine(),
-    fourLine:statusFourLine(),
-    fiveLine:statusFiveLine(),
-    sixLine:statusSixLine(),
-  };
-
   useEffect(() => {
     defineWord();
-    countMatchesPlayed();
-  }, [word]);
-  
+    setMatchesPlayed();
+  }, [word]); 
   useEffect(() => {
     addLetter();
   }, [letter]);
-
   useEffect(() => {
     gameStatus();
   },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
-
-
   console.log(word)
   return (
     <SafeAreaView style={styles.container}>

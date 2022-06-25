@@ -2,31 +2,13 @@ import { View, Text, SafeAreaView, StatusBar, TouchableOpacity } from "react-nat
 import ButtonSimple from "../../components/buttons/ButtonSimple";
 import { useEffect } from "react";
 import { styles } from "../../assets/styles/Home";
-import  AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { setStorageDefault } from "../../services/asyncStorage";
 import SeparatorLine from "../../components/SeparatorLine";
 import { useNavigation } from "@react-navigation/native";
 export default function Home() {
   const navigation = useNavigation();
-  const {setItem} = useAsyncStorage("@statistics:matches")
-  async function statisticsInitial() {
-    try{
-      var results = await AsyncStorage.getAllKeys();
-      if (results.length == 0) {
-        const statistics = {
-          wonGames:0,
-          lostGames:0,
-          percentWon:'0%',
-          percentLost:'0%',
-        };
-        await setItem(JSON.stringify(statistics))
-      }
-    }
-    catch(error){
-      console.log(error)
-    }
-  }
   useEffect(() => {
-    statisticsInitial();
+    setStorageDefault();
   }, []);
   return (
     <SafeAreaView style={styles.container}>

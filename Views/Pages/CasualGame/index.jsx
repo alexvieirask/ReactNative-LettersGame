@@ -34,7 +34,12 @@ export default function CasualGame() {
     sixLine:statusSixLine(fiveRow.word_complete,sixRow.word_complete,sixRow.letters,word),
   };
 
-  function warningAlert() {
+  
+  
+  /* 
+    Função que mostra um alerta para o usuário
+  */
+  function showAlert() {
     setToast(true)
     
   }
@@ -72,7 +77,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(firstRow.letters))) {
      setFirstRow({ ...firstRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   
@@ -80,7 +85,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(secondRow.letters))) {
     setSecondRow({ ...secondRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   
@@ -88,7 +93,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(threeRow.letters))) {
       setThreeRow({ ...threeRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   
@@ -96,7 +101,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fourRow.letters))) {
       setFourRow({ ...fourRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   
@@ -104,7 +109,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fiveRow.letters))) {
       setFiveRow({ ...fiveRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   
@@ -112,7 +117,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(sixRow.letters))) {
       setSixRow({ ...sixRow, word_complete: true });
     } else {
-      warningAlert();
+      showAlert();
     }
   };
   

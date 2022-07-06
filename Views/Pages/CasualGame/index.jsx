@@ -33,6 +33,11 @@ export default function CasualGame() {
     fiveLine:statusFiveLine(fourRow.word_complete,fiveRow.word_complete,fiveRow.letters,word),
     sixLine:statusSixLine(fiveRow.word_complete,sixRow.word_complete,sixRow.letters,word),
   };
+
+  function warningAlert() {
+    setToast(true)
+    
+  }
   
   function resetGame(){
     setFirstRow(default_row);
@@ -67,7 +72,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(firstRow.letters))) {
      setFirstRow({ ...firstRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -75,7 +80,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(secondRow.letters))) {
     setSecondRow({ ...secondRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -83,7 +88,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(threeRow.letters))) {
       setThreeRow({ ...threeRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -91,7 +96,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fourRow.letters))) {
       setFourRow({ ...fourRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -99,7 +104,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fiveRow.letters))) {
       setFiveRow({ ...fiveRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -107,7 +112,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(sixRow.letters))) {
       setSixRow({ ...sixRow, word_complete: true });
     } else {
-      setToast(true);
+      warningAlert();
     }
   };
   
@@ -189,13 +194,16 @@ export default function CasualGame() {
     defineWord();
     setMatchesPlayed();
   }, [word]); 
+
   useEffect(() => {
     addLetter();
   }, [letter]);
+  
   useEffect(() => {
     gameStatus();
   },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
   
+  // Palavra sorteada
   console.log(word)
   
   return (

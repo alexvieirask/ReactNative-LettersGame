@@ -184,6 +184,7 @@ export default [
   "CALMA",
   "CIUME",
   "CLARO",
+  "CARRO",
   "CAUDA",
   "CAPAZ",
   "COVIL",

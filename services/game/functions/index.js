@@ -1,4 +1,4 @@
-import words from "./words";
+import words from "../listofwords";
 const randomWord = () => {
   return words[Math.floor(Math.random() * words.length)];
 };

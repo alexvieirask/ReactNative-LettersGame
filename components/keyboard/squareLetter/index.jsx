@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableHighlight } from "react-native";
-import { styles } from "../../assets/styles/Keyboard";
+import { styles } from "../styles";
 const LetterInput = ({ label, letter, setletter }) => {
   const lettersRepeatPossible = () => {
     if( letter == label){

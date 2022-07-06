@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { styles } from "../../assets/styles/Keyboard";
-import LetterInput from "./letter";
-import SpecialButton from "./specialButton";
+import { styles } from "../styles";
+import LetterInput from "../squareLetter";
+import SpecialButton from '../specialButton'
 const Keyboard = ({ letter, setLetter }) => {
   return (
     <View style={{width:'100%'}}>

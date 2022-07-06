@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { View, Text, SafeAreaView,Animated,StyleSheet} from "react-native";
-import { getItem } from "../../services/asyncStorage";
+import { getItem } from "../../../services/database";
 import { VictoryPie } from "victory-native";
-import { styles } from "../../assets/styles/Profile";
-import SeparatorLine from "../../components/SeparatorLine";
-import { graphic } from "../../services/structures";
+import { styles } from "./styles";
+import { graphic } from "../../../services/game/const/graphic";
+import SeparatorLine from "../../../components/SeparatorLine";
 
 export default function Profile() {
   const [data, setData] =  useState({});

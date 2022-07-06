@@ -1,5 +1,5 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 import Profile from "../Pages/Profile";
 import Home from "../Pages/Home";
 import CasualGame from "../Pages/CasualGame";

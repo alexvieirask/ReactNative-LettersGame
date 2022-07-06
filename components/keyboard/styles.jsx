@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
-import Colors from "../../config/General/Colors";
-import Fonts from "../../config/General/Fonts";
+import Colors from "../../config/general/Colors";
+import Fonts from "../../config/general/Fonts";
+
 const styles = StyleSheet.create({
   keyboardFirstRow: {
     flexDirection: "row",

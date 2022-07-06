@@ -1,16 +1,16 @@
-import React from "react";
-import { styles } from "../../assets/styles/CasualGame";
+import { styles } from "./styles";
 import { View, SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
-import RowSquare from "../../components/mapword/rowSquare";
-import AnswerCheck from "../../components/modals/AnswerCheck";
-import ToastWarning from "../../components/modals/ToastWarning";
-import words from "../../services/words";
-import Keyboard from "../../components/keyboard/keyboard";
-import { setMatchesPlayed, setMatchWinner } from "../../services/asyncStorage";
-import { statusFirstLine,statusSecondLine,statusThreeLine,statusFourLine,statusFiveLine,statusSixLine } from "../../services/rowsStylesFunctions";
-import { stringfyRow, allRowsStringfy, lineLenghtMax, randomWord } from "../../services/gameFunctions";
-import {  default_row } from "../../services/structures";  
+import { setMatchesPlayed, setMatchWinner } from "../../../services/database/index";
+import { statusFirstLine,statusSecondLine,statusThreeLine,statusFourLine,statusFiveLine,statusSixLine } from "../../../services/game/functions/style/rows";
+import { stringfyRow, allRowsStringfy, lineLenghtMax, randomWord } from "../../../services/game/functions/index";
+import { default_row } from "../../../services/game/const";  
+import React from "react";
+import RowSquare from "../../../components/mapword/rowSquare";
+import AnswerCheck from "../../../components/modals/AnswerCheck";
+import ToastWarning from "../../../components/modals/ToastWarning";
+import words from "../../../services/game/listofwords";
+import Keyboard from "../../../components/keyboard/main";
 
 export default function CasualGame() {
   const [Toast, setToast] = useState(false);
@@ -33,7 +33,8 @@ export default function CasualGame() {
     fiveLine:statusFiveLine(fourRow.word_complete,fiveRow.word_complete,fiveRow.letters,word),
     sixLine:statusSixLine(fiveRow.word_complete,sixRow.word_complete,sixRow.letters,word),
   };
-  const resetGame = () => {
+  
+  function resetGame(){
     setFirstRow(default_row);
     setSecondRow(default_row);
     setThreeRow(default_row);
@@ -42,7 +43,8 @@ export default function CasualGame() {
     setSixRow(default_row);
     setWord('game start');
   };
-  const gameStatus = () => {
+
+  function gameStatus(){
     if (allRowsStringfy(rows_letters).includes(word)){
       setWordStatus("Winner");
       setShowAlert(true);
@@ -54,52 +56,62 @@ export default function CasualGame() {
       }
     }
   };
-  const defineWord = () => {
-    word == 'game start' && setWord(randomWord().toUpperCase());
+
+  function defineWord(){
+    if (word == "game start"){
+      setWord(randomWord().toUpperCase())
+    }
   }
-  const verifyFirstLineWord = () =>{
+
+  function verifyFirstLineWord(){
     if (words.includes(stringfyRow(firstRow.letters))) {
      setFirstRow({ ...firstRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const verifySecondLineWord = () =>{
+  
+  function verifySecondLineWord(){
     if (words.includes(stringfyRow(secondRow.letters))) {
     setSecondRow({ ...secondRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const verifyThreeLineWord = () =>{
+  
+  function verifyThreeLineWord(){
     if (words.includes(stringfyRow(threeRow.letters))) {
       setThreeRow({ ...threeRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const verifyFourLineWord = () =>{
+  
+  function verifyFourLineWord (){
     if (words.includes(stringfyRow(fourRow.letters))) {
       setFourRow({ ...fourRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const verifyFiveLineWord = () =>{
+  
+  function verifyFiveLineWord(){
     if (words.includes(stringfyRow(fiveRow.letters))) {
       setFiveRow({ ...fiveRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const verifySixLineWord = () =>{
+  
+  function verifySixLineWord(){
     if (words.includes(stringfyRow(sixRow.letters))) {
       setSixRow({ ...sixRow, word_complete: true });
     } else {
       setToast(true);
     }
   };
-  const onPressEnter = () =>{
+  
+  function onPressEnter(){
     if (firstRow.word_complete == false){ 
       verifyFirstLineWord() 
     }
@@ -119,7 +131,8 @@ export default function CasualGame() {
       verifySixLineWord()
     }
   }
-  const onPressDelete = () =>{
+  
+  function onPressDelete(){
     if (firstRow.word_complete == false) {
       setFirstRow({...firstRow,letters: [...firstRow.letters.slice(0, -1)]});
     }
@@ -138,8 +151,9 @@ export default function CasualGame() {
     if (sixRow.word_complete == false  & fiveRow.word_complete == true) {
       setSixRow({ ...sixRow, letters: [...sixRow.letters.slice(0, -1)] });
     }
-  }
-  const addLetter = () => {
+  };
+  
+  function addLetter(){
     if (letter != undefined) {
       const Letter = letter.trim();
       if (Letter != "Delete" & Letter != "Enter") {
@@ -170,6 +184,7 @@ export default function CasualGame() {
       }
     }
   };
+
   useEffect(() => {
     defineWord();
     setMatchesPlayed();
@@ -180,7 +195,9 @@ export default function CasualGame() {
   useEffect(() => {
     gameStatus();
   },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
+  
   console.log(word)
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>

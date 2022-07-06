@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import SquareLetter from "./squareLetter";
-import { styles } from "../../assets/styles/RowSquare";
+import SquareLetter from "../letterSquare";
+import { styles } from "./styles";
 const RowSquare = ({letters,status,wordcomplete}) => {
   return (
     <View style={styles.row}>

@@ -1,9 +1,10 @@
-import React from "react";
 import { View, Text, StatusBar, SafeAreaView } from "react-native";
-import SeparatorLine from "../../components/SeparatorLine";
-import RowSquare from "../../components/mapword/rowSquare";
-import { styles } from "../../assets/styles/HowToPlay";
-import { example_row } from "../../services/structures";
+import { styles } from "./styles";
+import { example_row } from "../../../services/game/const/example";
+import React from "react";
+import SeparatorLine from "../../../components/SeparatorLine";
+import RowSquare from "../../../components/mapword/rowSquare";
+
 export default function HowToplay() {
   return (
     <SafeAreaView style={styles.container}>

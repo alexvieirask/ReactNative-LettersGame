@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { styles_square } from "../../services/structures";
-import { styles } from "../../assets/styles/SquareLetter";
+import { styles_square } from "../../../services/game/const";
+import { styles } from "./styles";
 const SquareLetter = ({ letter, status, wordcomplete }) => {
   const structure = styles_square
   const styleSquare = () =>{

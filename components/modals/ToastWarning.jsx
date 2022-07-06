@@ -1,8 +1,8 @@
 import { Text, Animated, View } from "react-native";
 import { useState, useEffect } from "react";
-import Colors from "../../config/General/Colors";
-import Fonts from "../../config/General/Fonts";
 import { Ionicons } from "react-native-vector-icons";
+import Colors from "../../config/general/Colors";
+import Fonts from "../../config/general/Fonts";
 export default function ToastWarning({ Toast, set_Toast }) {
   const [right, setRight] = useState(new Animated.Value(-300));
   useEffect(() => {

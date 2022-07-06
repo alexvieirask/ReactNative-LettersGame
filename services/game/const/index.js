@@ -35,17 +35,7 @@ const example_row = {
   word :["A", "R", "T", "E", "S"],
   status : ["green", "yellow", "yellow", "red", "green"]
 }
-const graphic = {
-  victory:{
-    label: "Vitórias",
-    color: "#00b509",
-  },
-  defeat:{
-    label: "Derrotas",
-    color: "#fc2c03",
-  }
 
-} 
 
-export { type, styles_square, default_row, example_row, graphic } 
+export { type, styles_square, default_row, example_row } 
     

@@ -1,10 +1,10 @@
 import { View, Text, SafeAreaView, StatusBar, TouchableOpacity } from "react-native";
-import ButtonSimple from "../../components/buttons/ButtonSimple";
 import { useEffect } from "react";
-import { styles } from "../../assets/styles/Home";
-import { setStorageDefault } from "../../services/asyncStorage";
-import SeparatorLine from "../../components/SeparatorLine";
+import { styles } from "./styles";
+import { setStorageDefault } from "../../../services/database";
 import { useNavigation } from "@react-navigation/native";
+import ButtonSimple from "../../../components/buttons/buttonSimple";
+import SeparatorLine from "../../../components/SeparatorLine";
 export default function Home() {
   const navigation = useNavigation();
   useEffect(() => {

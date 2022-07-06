@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import Fonts from "../../config/General/Fonts";
+import Fonts from "../../../config/general/Fonts";
 const styles = StyleSheet.create({
   squareLabel: {
     fontSize: 30,

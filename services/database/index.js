@@ -1,14 +1,10 @@
+import { default_storage } from "../game/const/statistics";
 import AsyncStorage, {useAsyncStorage}from "@react-native-async-storage/async-storage";
 async function setStorageDefault() {
   try {
     var results = await AsyncStorage.getAllKeys();
     if (results.length == 0) {
-      const statistics = {
-        wonGames: 0,
-        lostGames: 0,
-        percentWon: "0%",
-        percentLost: "0%",
-      };
+      const statistics = default_storage;
       await setItem(JSON.stringify(statistics));
     }
   } catch (error) {

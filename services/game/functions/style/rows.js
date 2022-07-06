@@ -1,5 +1,6 @@
-import { stringfyRow } from "./gamefunctions";
-import { type } from "./structures";
+import { stringfyRow } from "../index";
+import { type } from "../../const";
+
 const statusFirstLine = (word_complete, first_row_letter, word) => {
   var statusFirstRow = [];
   if (word_complete == false) {
@@ -9,7 +10,6 @@ const statusFirstLine = (word_complete, first_row_letter, word) => {
   }
   return statusFirstRow;
 };
-
 const statusSecondLine = (word_complete_anterior,word_complete_atual,second_row_letter,word)=> {
   var statusSecondRow = [];
   if ((word_complete_atual == false) & (word_complete_anterior == true)) {
@@ -19,7 +19,6 @@ const statusSecondLine = (word_complete_anterior,word_complete_atual,second_row_
   }
   return statusSecondRow;
 };
-
 const statusThreeLine = (word_complete_anterior,word_complete_atual,three_row_letter,word) => {
   var statusThreeRow = [];
   if ((word_complete_atual == false) & (word_complete_anterior == true)) {
@@ -29,7 +28,6 @@ const statusThreeLine = (word_complete_anterior,word_complete_atual,three_row_le
   }
   return statusThreeRow;
 };
-
 const statusFourLine = (word_complete_anterior,word_complete_atual,four_row_letter,word) => {
   var statusFourRow = [];
   if ((word_complete_atual == false) & (word_complete_anterior == true)) {
@@ -57,7 +55,6 @@ const statusSixLine = (word_complete_anterior,word_complete_atual,six_row_letter
   }
   return statusSixRow;
 };
-
 const statusFirstLineWordIncomplete = (first_row_letter) => {
   var statusFirstRow = [];
   if (first_row_letter.length == 0) {
@@ -282,6 +279,5 @@ const statusSixLineWordComplete = (six_row_letter,word) => {
   }
   return statusSixRow;
 };
-
 
 export { statusFirstLine, statusSecondLine, statusThreeLine, statusFourLine,statusFiveLine,statusSixLine };

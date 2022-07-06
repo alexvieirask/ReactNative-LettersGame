@@ -1,8 +1,8 @@
 import { Modal, Text, StyleSheet, View, TouchableOpacity } from "react-native";
-import SeparatorLine from "../SeparatorLine";
 import { useEffect, useState } from "react";
-import Colors from "../../config/General/Colors";
 import { useNavigation } from "@react-navigation/native";
+import SeparatorLine from "../SeparatorLine";
+import Colors from "../../config/general/Colors";
 export default function AnswerCheck({
   showAlert,
   setShowAlert,

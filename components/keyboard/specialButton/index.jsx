@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { FontAwesome } from "react-native-vector-icons";
-import { styles } from "../../assets/styles/Keyboard";
+import { styles } from "../styles";
 const SpecialButton = ({label,setletter,letter}) => {
   const lettersRepeatPossible = () =>{
     if( letter == label){

@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import SeparatorLine from "../SeparatorLine";
 import Colors from "../../config/general/Colors";
-export default function AnswerCheck({
-  showAlert,
-  setShowAlert,
-  wordstatus,
-  word,
-  ActionPress,
-}) {
+export default function AnswerCheck({ showAlert, setShowAlert, wordstatus, word, ActionPress}) {
   const navigation = useNavigation();
   const [data, setData] = useState({
     tittle: null,
@@ -17,17 +11,6 @@ export default function AnswerCheck({
     word: word,
   });
   const colorStatus = wordstatus == "Winner" ? Colors.WINNER : Colors.LOSER;
-  const onClose = () => {
-    setShowAlert(false), ActionPress();
-  };
-
-  const OnMenu = () => {
-    setShowAlert(false),
-      setTimeout(() => {
-        navigation.navigate("Home");
-      }, 1000);
-  };
-
   const styles = StyleSheet.create({
     outerview: {
       flex: 1,
@@ -96,7 +79,19 @@ export default function AnswerCheck({
       borderTopLeftRadius: 10,
     },
   });
-  const wordStatus = () => {
+
+  function onClose(){
+    setShowAlert(false), ActionPress();
+  };
+
+  function onMenu(){
+    setShowAlert(false),
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 1000);
+  };
+
+  function wordStatus(){
     if (wordstatus == "Winner") {
       setData({...data,tittle: "Vencedor",content: "Parabéns, você acertou qual era a palavra correta!"});
     } else {
@@ -104,16 +99,12 @@ export default function AnswerCheck({
     }
     return data;
   };
+  
   useEffect(() => {
     wordStatus();
   }, [showAlert]);
   return (
-    <Modal
-      visible={showAlert}
-      transparent={true}
-      animationType={"fade"}
-      onRequestClose={() => onClose()}
-    >
+    <Modal visible={showAlert} transparent={true} animationType={"fade"}>
       <View style={styles.outerview}>
         <View style={styles.modalBox}>
           <View style={styles.header}>
@@ -134,7 +125,7 @@ export default function AnswerCheck({
                 <Text style={{ color: "#fff",textAlign:'center'}}>Jogar Novamente</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => OnMenu()}>
+            <TouchableOpacity onPress={() => onMenu()}>
               <View style={styles.buttonMenu}>
                 <Text style={{ color: colorStatus, fontWeight: "700" }}>
                   Menu Inicial

@@ -1,5 +1,6 @@
 import { default_storage } from "../game/const/statistics";
-import AsyncStorage, {useAsyncStorage}from "@react-native-async-storage/async-storage";
+import AsyncStorage, { useAsyncStorage }from "@react-native-async-storage/async-storage";
+
 async function setStorageDefault() {
   try {
     var results = await AsyncStorage.getAllKeys();
@@ -39,5 +40,6 @@ async function setMatchWinner() {
     console.log(error);
   }
 }
+
 export { setStorageDefault, setMatchesPlayed, setMatchWinner };
 export const { getItem, setItem, removeItem } = useAsyncStorage("@statistics:matches")

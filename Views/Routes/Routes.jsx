@@ -5,6 +5,17 @@ import Home from "../Pages/Home";
 import CasualGame from "../Pages/CasualGame";
 import HowToplay from "../Pages/HowToPlay";
 const Stack = createStackNavigator();
+const default_options = {
+  headerTintColor: "#FFF",
+  headerTransparent: true,
+  headerStyle:{
+    height:65
+  },
+  title: null,
+}
+const hideHeader = {
+  headerShown: false
+}
 
 export default function Routes() {
   return (
@@ -12,41 +23,23 @@ export default function Routes() {
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{
-          headerShown: false,
-        }}
+        options={hideHeader}
       />
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{
-          headerTintColor: "#FFF",
-          headerTransparent: true,
-          headerStyle:{
-            height:65
-          },
-          title: null,
-        }}
+        options={default_options}
       />
       <Stack.Screen
         name="CasualGame"
         component={CasualGame}
-        options={{
-          headerShown: false,
-        }}
+        options={hideHeader}
       />
 
     <Stack.Screen
         name="HowToPlay"
         component={HowToplay}
-       options={{
-          headerTintColor: "#FFF",
-          headerTransparent: true,
-          headerStyle:{
-            height:65
-          },
-          title: null,
-        }}
+       options={default_options}
       />
     </Stack.Navigator>
   );

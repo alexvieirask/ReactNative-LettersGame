@@ -25,6 +25,8 @@ export default function CasualGame() {
   const [fiveRow, setFiveRow] = useState(default_row);
   const [sixRow, setSixRow] = useState(default_row);
   const rows_letters = [firstRow.letters,secondRow.letters,threeRow.letters,fourRow.letters,fiveRow.letters,sixRow.letters]
+  const rows_complete_status = [firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete] 
+
   const status = {
     firstLine: statusFirstLine(firstRow.word_complete,firstRow.letters,word),
     secondLine:statusSecondLine(firstRow.word_complete,secondRow.word_complete,secondRow.letters,word),
@@ -35,15 +37,12 @@ export default function CasualGame() {
   };
 
   
-  
-  /* 
-    Função que mostra um alerta para o usuário
-  */
-  function showAlert() {
+  /* Mostra um Alerta para o usuário */
+  function showToastWarning() {
     setToast(true)
-    
   }
   
+/* Reinicia o jogo */
   function resetGame(){
     setFirstRow(default_row);
     setSecondRow(default_row);
@@ -54,6 +53,7 @@ export default function CasualGame() {
     setWord('game start');
   };
 
+/* Verifica o andamento da partida, se o usuário acertou a palavra ou usou todas as tentativas */
   function gameStatus(){
     if (allRowsStringfy(rows_letters).includes(word)){
       setWordStatus("Winner");
@@ -67,17 +67,19 @@ export default function CasualGame() {
     }
   };
 
+/* Gera e define uma palavra aleatoria para ser descoberta na partida */
   function defineWord(){
     if (word == "game start"){
       setWord(randomWord().toUpperCase())
     }
   }
 
+/* Verifica se a palavra digitada na primeira linha existe na lista */
   function verifyFirstLineWord(){
     if (words.includes(stringfyRow(firstRow.letters))) {
      setFirstRow({ ...firstRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning()
     }
   };
   
@@ -85,7 +87,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(secondRow.letters))) {
     setSecondRow({ ...secondRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning()
     }
   };
   
@@ -93,7 +95,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(threeRow.letters))) {
       setThreeRow({ ...threeRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning();
     }
   };
   
@@ -101,7 +103,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fourRow.letters))) {
       setFourRow({ ...fourRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning();
     }
   };
   
@@ -109,7 +111,7 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(fiveRow.letters))) {
       setFiveRow({ ...fiveRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning();
     }
   };
   
@@ -117,10 +119,11 @@ export default function CasualGame() {
     if (words.includes(stringfyRow(sixRow.letters))) {
       setSixRow({ ...sixRow, word_complete: true });
     } else {
-      showAlert();
+      showToastWarning();
     }
   };
   
+/* Validações necessárias quando o usuário tenta confirmar uma palavra escolhida */
   function onPressEnter(){
     if (firstRow.word_complete == false){ 
       verifyFirstLineWord() 
@@ -141,7 +144,8 @@ export default function CasualGame() {
       verifySixLineWord()
     }
   }
-  
+
+/* Possui como objetivo remover a última letra digitada da lista */
   function onPressDelete(){
     if (firstRow.word_complete == false) {
       setFirstRow({...firstRow,letters: [...firstRow.letters.slice(0, -1)]});
@@ -162,35 +166,42 @@ export default function CasualGame() {
       setSixRow({ ...sixRow, letters: [...sixRow.letters.slice(0, -1)] });
     }
   };
+
+/* Possui como objetivo adicionar uma letra na lista */
+  function onAddLetter(){
+    const Letter = letter.trim();
+    if (lineLenghtMax(rows_letters[0]) == false) {
+      setFirstRow({...firstRow, letters: [...firstRow.letters, Letter] });
+    }
+    if (lineLenghtMax(rows_letters[1]) == false & firstRow.word_complete == true) {
+      setSecondRow({...secondRow, letters:[...secondRow.letters, Letter]});
+    }
+    if (lineLenghtMax(rows_letters[2]) == false & secondRow.word_complete == true) {
+      setThreeRow({...threeRow, letters: [...threeRow.letters, Letter]});
+    }
+    if (lineLenghtMax(rows_letters[3]) == false & threeRow.word_complete == true){
+      setFourRow({...fourRow, letters: [...fourRow.letters, Letter]});
+    }
+    if (lineLenghtMax(rows_letters[4]) == false & fourRow.word_complete == true) {
+      setFiveRow({...fiveRow, letters: [...fiveRow.letters, Letter]});
+    }
+    if (lineLenghtMax(rows_letters[5]) == false & fiveRow.word_complete == true) {
+      setSixRow({...sixRow, letters: [...sixRow.letters, Letter]});
+    }
+  }
   
-  function addLetter(){
+/* Realiza o filtro do objetivo do usuário ao pressionar alguma tecla */
+  function onPressKeyboard(){
     if (letter != undefined) {
       const Letter = letter.trim();
-      if (Letter != "Delete" & Letter != "Enter") {
-        if (lineLenghtMax(rows_letters[0]) == false) {
-          setFirstRow({...firstRow, letters: [...firstRow.letters, Letter] });
-        }
-        if (lineLenghtMax(rows_letters[1]) == false & firstRow.word_complete == true) {
-          setSecondRow({...secondRow, letters:[...secondRow.letters, Letter]});
-        }
-        if (lineLenghtMax(rows_letters[2]) == false & secondRow.word_complete == true) {
-          setThreeRow({...threeRow, letters: [...threeRow.letters, Letter]});
-        }
-        if (lineLenghtMax(rows_letters[3]) == false & threeRow.word_complete == true){
-          setFourRow({...fourRow, letters: [...fourRow.letters, Letter]});
-        }
-        if (lineLenghtMax(rows_letters[4]) == false & fourRow.word_complete == true) {
-          setFiveRow({...fiveRow, letters: [...fiveRow.letters, Letter]});
-        }
-        if (lineLenghtMax(rows_letters[5]) == false & fiveRow.word_complete == true) {
-          setSixRow({...sixRow, letters: [...sixRow.letters, Letter]});
-        }
-      }   
       if (Letter === "Enter") {
         onPressEnter()
       }
-      if (Letter === "Delete") {
+      else if (Letter === "Delete") {
         onPressDelete()
+      } 
+      else{
+          onAddLetter()
       }
     }
   };
@@ -201,15 +212,12 @@ export default function CasualGame() {
   }, [word]); 
 
   useEffect(() => {
-    addLetter();
+    onPressKeyboard();
   }, [letter]);
   
   useEffect(() => {
     gameStatus();
-  },[ firstRow.word_complete, secondRow.word_complete, threeRow.word_complete, fourRow.word_complete, fiveRow.word_complete, sixRow.word_complete]);
-  
-  // Palavra sorteada
-  console.log(word)
+  },[rows_complete_status]);
   
   return (
     <SafeAreaView style={styles.container}>
